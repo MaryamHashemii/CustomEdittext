@@ -1,4 +1,3 @@
-package ir.app7030.android.widget
 
 
 import android.content.Context
@@ -23,12 +22,6 @@ import androidx.annotation.ColorInt
 import androidx.annotation.IntDef
 import androidx.annotation.StringRes
 import androidx.appcompat.widget.AppCompatAutoCompleteTextView
-import ir.app7030.android.R
-import ir.app7030.android.data.database.repository.debitcard.DebitCard
-import ir.app7030.android.data.model.api.bill.responses.SavedBill
-import ir.app7030.android.data.model.api.user.UserPhoneNumber
-import ir.app7030.android.helper.*
-import ir.app7030.android.utils.*
 import org.jetbrains.anko.*
 
 
@@ -47,8 +40,6 @@ class CustomEditText @JvmOverloads constructor(context: Context, attrs: Attribut
     private var isSetLeftIconColor: Boolean = true
 
     private val userPhoneNumbers: ArrayList<UserPhoneNumber> = arrayListOf()
-    private val userCardNumber:ArrayList<DebitCard> = arrayListOf()
-    private val userBillNumber:ArrayList<SavedBill.BillTypes> = arrayListOf()
     var onRightIconClickListener: ((view: View) -> Unit)? = null
 
     private var mAdapterSuggestions: ArrayAdapter<*>? = null
@@ -530,98 +521,6 @@ class CustomEditText @JvmOverloads constructor(context: Context, attrs: Attribut
 
     }
 
-
-    fun setSuggestionListCard(saved: ArrayList<DebitCard>
-//                              , recently: ArrayList<DebitCard>
-    ) {
-        this.userCardNumber.clear()
-
-        this.userCardNumber.addAll(saved)
-        val addItem= DebitCard()
-        addItem.itemType = DebitCard.TYPE_ADD
-        userCardNumber.add(addItem)
-//        if (recently.size >0 ){
-//            val textRecentlyItem= DebitCard()
-//            textRecentlyItem.itemType = DebitCard.TYPE_TEXT_RECENTLY
-//            userCardNumber.add(textRecentlyItem)
-//            userCardNumber.addAll(recently)
-//        }
-
-
-        mAdapterSuggestions = AutoCompleteCardAdapter(context, R.layout.row_auto_complete_phone, userCardNumber)
-
-        mEditText?.setAdapter(mAdapterSuggestions)
-        mEditText?.setOnItemClickListener { _, _, position, _ ->
-            when(userCardNumber[position].itemType){
-                DebitCard.TYPE_NUMBER -> {
-                    selectedUserPhoneNumberPos = position
-
-
-                }
-
-                DebitCard.TYPE_ADD -> {
-                    mAddNumberListener?.onAddFavoriteNumberClick()
-                }
-            }
-
-
-        }
-        mEditText?.isFocusable =true
-
-        mEditText?.setOnClickListener {
-
-            mListener?.onEditTextClick(it)
-        }
-        mEditText?.setOnFocusChangeListener { _, hasFocus ->
-            /*if (hasFocus) {
-                mEditText?.requestFocus()
-                mEditText?.performClick()
-            }*/
-        }
-
-    }
-
-    fun setSuggestionListBill(saved: ArrayList<SavedBill>, recently: ArrayList<SavedBill>) {
-        this.userBillNumber.clear()
-        this.userBillNumber.addAll(saved.map { SavedBill.BillTypes.Bill(it) })
-        this.userBillNumber.add(SavedBill.BillTypes.TypeAdd)
-
-        if (recently.size >0 ){
-            val textRecentlyItem= SavedBill()
-            textRecentlyItem.itemType = SavedBill.TYPE_TEXT_RECENTLY
-//            userBillNumber.add(textRecentlyItem)
-            userBillNumber.addAll(recently.map { SavedBill.BillTypes.Bill(it) })
-        }
-
-        mAdapterSuggestions = AutoCompleteBillAdapter(context, R.layout.row_auto_complete_bill, userBillNumber)
-
-        mEditText?.setAdapter(mAdapterSuggestions)
-        mEditText?.setOnItemClickListener { _, _, position, _ ->
-            when(userBillNumber[position]){
-                is SavedBill.BillTypes.Bill -> {
-                    mEditText?.setText((userBillNumber[position] as SavedBill.BillTypes.Bill).savedBill.subtitle ?: "", TextView.BufferType.EDITABLE);
-
-                    selectedUserPhoneNumberPos = position
-                }
-                is SavedBill.BillTypes.TypeAdd -> {
-                    mAddNumberListener?.onAddFavoriteNumberClick()
-                }
-            }
-        }
-        mEditText?.isFocusable =true
-
-        mEditText?.setOnClickListener {
-
-            mListener?.onEditTextClick(it)
-        }
-        mEditText?.setOnFocusChangeListener { _, hasFocus ->
-            /*if (hasFocus) {
-                mEditText?.requestFocus()
-                mEditText?.performClick()
-            }*/
-        }
-
-    }
 
     fun openDropDown() {
         mEditText?.showDropDown()
