@@ -1,4 +1,3 @@
-package ir.app7030.android.widget
 
 import android.content.Context
 import android.graphics.Typeface
@@ -7,7 +6,6 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
-import ir.app7030.android.R
 import kotlinx.android.synthetic.main.row_auto_complete_phone.view.*
 
 class AutoCompletePhoneListItemView(context: Context) : LinearLayout(context, null, 0) {
