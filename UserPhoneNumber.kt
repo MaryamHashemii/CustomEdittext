@@ -1,4 +1,3 @@
-package ir.app7030.android.data.model.api.user
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
