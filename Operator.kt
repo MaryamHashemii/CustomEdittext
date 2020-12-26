@@ -1,14 +1,8 @@
-package ir.app7030.android.helper
 
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
-
 import java.util.Arrays
 
-import ir.app7030.android.Base
-import ir.app7030.android.R
-import ir.app7030.android.utils.AppLogger
-import ir.app7030.android.utils.getColorInt
 
 
 enum class Operator constructor(val value: String) {
